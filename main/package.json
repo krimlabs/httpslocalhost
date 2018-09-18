@@ -1,0 +1,37 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "dependencies": {
+  	"devcert": "^1.0.0",
+    "menubar": "5.2.3",
+    "nedb": "^1.8.0",
+    "nedb-promises": "^3.0.1",
+    "validate": "^4.5.1"
+},
+  "scripts": {
+    "electron": "electron ./src",
+    "start": "nodemon --watch ./src/**/* --exec 'yarn electron'",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^2.0.9",
+    "electron-builder": "^20.28.4",
+    "nodemon": "^1.18.4"
+  },
+  "build": {
+    "appId": "com.httpslocalhost",
+    "mac": {
+      "category": "public.app-category.developer-tools"  
+    },
+    "productName": "HTTPS Localhost"
+  },
+  "extraFiles": [
+    "../renderer/lib/simple-electron-ipc/**/*"
+  ],
+  "author": "Shivek Khurana",
+  "license": "ISC"
+}

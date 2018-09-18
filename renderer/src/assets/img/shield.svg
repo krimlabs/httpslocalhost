@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="165px" height="211px" viewBox="0 0 165 211" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>shield</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-1">
+            <stop stop-color="#808080" stop-opacity="0.25" offset="0%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.12" offset="54%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="50.0037512%" x2="100%" y2="50.0037512%" id="linearGradient-2">
+            <stop stop-color="#808080" stop-opacity="0.25" offset="0%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.12" offset="54%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="001" transform="translate(-220.000000, -95.000000)" fill-rule="nonzero">
+            <g id="illustration" transform="translate(174.000000, 95.000000)">
+                <g id="shield" transform="translate(46.000000, 0.000000)">
+                    <g id="Group" opacity="0.5" fill="url(#linearGradient-1)">
+                        <path d="M82.3673115,0.0147209302 L0.118343838,50.3838558 C0.118343838,50.3838558 0.118343838,154.275349 82.3673115,210.933265 C164.616279,154.275349 164.616279,50.3838558 164.616279,50.3838558 L82.3673115,0.0147209302 Z" id="Shape"></path>
+                    </g>
+                    <path d="M81,3 L1,51.9640288 C1,51.9640288 1,152.933165 81,208 C161,152.924317 161,51.9640288 161,51.9640288 L81,3 Z" id="Shape" fill="#FFFFFF"></path>
+                    <path d="M82.3780759,3 L81,3.8347482 L81,207.044317 C81.4573658,207.362878 81.9147315,207.684388 82.3780759,208 C163,152.924317 163,51.9640288 163,51.9640288 L82.3780759,3 Z" id="Shape" fill="#C3CED5" opacity="0.04"></path>
+                    <g id="Group" opacity="0.7" transform="translate(55.000000, 89.000000)" fill="url(#linearGradient-2)">
+                        <polygon id="Shape" points="6.43147224 13.3033095 21.2200769 27.058229 39.5545724 0.22137746 46.9488747 6.47602862 21.2200769 39.5645796 0.267614404 15.8033989"></polygon>
+                    </g>
+                    <polygon id="Shape" fill="#3AD29F" points="65.0014548 103.401197 77.000291 114.713858 94.0005819 89 100 94.1445673 77.000291 125 60 105.457228"></polygon>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

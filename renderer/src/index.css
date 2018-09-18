@@ -1,0 +1,24 @@
+@font-face {
+	font-family: 'HKGrotesk';
+	src: url('assets/hk-grotesk/TTF/HKGrotesk-Regular.ttf') format('truetype');
+	font-weight: 400;
+}
+
+@font-face {
+	font-family: 'HKGrotesk';
+	src: url('assets/hk-grotesk/TTF/HKGrotesk-Bold.ttf') format('truetype');
+	font-weight: 700;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'HKGrotesk', sans-serif;
+  background: url('assets/img/texture-bg.png');
+}
+
+/* Remove blue outline on buttons */
+button:focus {outline:none;}
+
+/* Dim placeholder color */
+input::placeholder { color: #b2b2b2; }
