@@ -31,7 +31,7 @@ const NewProxyForm = () => {
           <span style={{color: colors.secureGreen}}>https:</span>
           <span className="gray">//</span>
         </React.Fragment>}
-        placeholder="catapp.local:80"
+        placeholder="athena.local"
         value={from}
         onChange={(e) => store.update({from: e.target.value})}
         error={errors.from}

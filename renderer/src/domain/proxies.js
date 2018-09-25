@@ -1,6 +1,5 @@
 import createStore from 'pure-store';
-
-import {emit} from 'utils/ipc';
+import {emit} from 'eiphop';
 
 const store = createStore({
   collection: [],

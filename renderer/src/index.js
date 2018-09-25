@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import {setupFrontendListener} from 'eiphop';
 
 import 'index.css';
 import 'assets/tachyons.min.css';
@@ -8,10 +9,10 @@ import Loading from 'screens/Loading';
 import Proxies from 'screens/Proxies';
 import Onboarding from 'screens/Onboarding';
 import Container from 'components/Container';
-import {setupFrontendListener} from 'utils/ipc';
 
-// listent to ipc responses
-setupFrontendListener(); // pass true to enable debugging
+// listen to ipc responses
+const electron = window.electron;
+setupFrontendListener(electron);
 
 const App = () => {
   return (<BrowserRouter>

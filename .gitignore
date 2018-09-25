@@ -1,8 +1,10 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
+# incomplete/ might be removed later
+main/src/devcert/
+
 # dependencies
-renderer/node_modules
-main/node_modules
+**/*/node_modules
 
 # testing
 /coverage

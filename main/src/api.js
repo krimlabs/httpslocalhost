@@ -1,4 +1,6 @@
-const proxyActions = require('./actions/proxy');
-const {setupMainHandler} = require('./utils/ipc');
+const electron = require('electron');
+const {setupMainHandler} = require('eiphop');
 
-setupMainHandler({...proxyActions}, true);
+const proxyActions = require('./actions/proxy');
+
+setupMainHandler(electron, {...proxyActions}, true);
