@@ -17,11 +17,11 @@ const withStores = (stores, WrappedComponent) => {
     constructor(props) {
       super(props);
       this.unsubscribeFunctions = stores.map(store => 
-        store.subscribe(()=> this.forceUpdate())
+        store.subscribe(() => this.forceUpdate())
       );
     }
 
-    componentWillMount() {
+    componentDidMount() {
       this.stores = stores;
     }
 

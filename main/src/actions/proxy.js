@@ -29,11 +29,15 @@ const actions = {
       res.error(errors);
     } else {
       const ssl = await generateCertificate(cleanedPayload.from);
-      // const ssl = true; 
       if (ssl) {
-        const proxy = await db.proxies.insert(cleanedPayload);
-        proxyServer.registerProxy(proxy);
-        res.send({proxy, msg: 'Proxy created successfully.'});  
+        const existingProxies = await db.proxies.find({from: cleanedPayload.from});
+        if (existingProxies.length > 0) {
+          res.error({from: "From address already exists."})
+        } else {
+          const proxy = await db.proxies.insert(cleanedPayload);
+          proxyServer.registerProxy(proxy);
+          res.send({proxy, msg: 'Proxy created successfully.'});    
+        }
       } else {
         res.error({from: 'Unable to generate certificate.'})
       }

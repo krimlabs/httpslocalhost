@@ -15,7 +15,7 @@ const Container = ({children}) => {
     </div>
     <div>
       <img src={leftYellowDots} alt="" className="fixed" style={{left: 0, top: 100, zIndex: -1}}/>
-      <img src={rightYellowDots} alt="" className="fixed" style={{right: 0, top: 30, zIndex: -1}}/>
+      <img src={rightYellowDots} alt="" className="fixed" style={{right: 0, top: 130, zIndex: -1}}/>
     </div>
     <div 
       className="bg-white w-80 center vh-100 mt2 shadow-1" 

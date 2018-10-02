@@ -4,11 +4,11 @@ import Input from 'components/ui/Input';
 
 const InputRow = ({icon, label, placeholder, value, onChange, error}) => {
   return (<div className="cf relative pr2" style={{zIndex: 1}}>
-    <div className="fl w-10 tc pt2">
-      <img src={icon} alt="" className="h1"/> 
-    </div>
-    <div className="fl w-20 pt2">
-      {label}
+    <div className="w-30 fl tc pt2">
+      <div className="fr pr1">
+        <img src={icon} alt="" className="h1 mr1"/> 
+        <div className="dib fr">{label}</div>
+      </div>
     </div>
     <div className="fl w-70">
       <Input

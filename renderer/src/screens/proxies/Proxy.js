@@ -1,21 +1,21 @@
 import React from 'react';
 
-import {deleteProxy} from 'domain/proxies';
+import ProxyRow from 'components/ProxyRow';
+import deleteIcon from 'assets/img/delete.svg';
 
-const Proxy = ({editable, proxy}) => {
-  return (<div className="ba b--black-10 br2 pa3 cf">
-    <div className="w-80 fl-ns">
-      <div>From <span className="green">https://</span> {proxy.from}</div>
-      <div className="mt2">To <span className="red">http://</span> {proxy.to}</div>
-    </div>
 
-    <div className="w-20 fl-ns">
-      <button 
-        className="bg-red white pointer dim br-pill ba b--black-10"
-        onClick={() => {deleteProxy(proxy._id)}}
+const Proxy = ({editable, proxy, onDelete}) => {
+  return (<div className="bb pa2 b--black-10 pv2 cf black-80 tl relative">
+    <ProxyRow proxy={proxy} />
+
+    <div className="absolute right-0 mt1">
+      <div
+        className="pointer dim h1"
+        // onClick={() => {deleteProxy(proxy._id)}}
+        onClick={() => onDelete(proxy)}
       >
-        x
-      </button>
+        <img src={deleteIcon} alt="" style={{height: '80%'}}/>
+      </div>
     </div>
   </div>);
 }

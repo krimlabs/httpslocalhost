@@ -14,7 +14,7 @@ ButtonWrapper.propTypes = {
   children: PropTypes.node
 };
 
-const Button = ({backgroundColor, onClick, text, height, loading, icon, className, href, type}) => {
+const Button = ({backgroundColor, onClick, text, height, loading, icon, className, href, type, fontSize}) => {
   return (<ButtonWrapper href={href}>
     <button
       type={type}
@@ -34,7 +34,7 @@ const Button = ({backgroundColor, onClick, text, height, loading, icon, classNam
       <div
         className='dtc v-mid'
         style={{
-          fontSize: 18
+          fontSize: fontSize
         }}
       >
         {text}
@@ -52,7 +52,8 @@ Button.propTypes = {
   className: PropTypes.string,
   href: PropTypes.string,
   icon: PropTypes.string,
-  type: PropTypes.string
+  type: PropTypes.string,
+  fontSize: PropTypes.number
 };
 
 Button.defaultProps = {
@@ -61,7 +62,8 @@ Button.defaultProps = {
   loading: false,
   className: '',
   href: '',
-  type: 'button'
+  type: 'button',
+  fontSize: 18
 };
 
 export default Button;

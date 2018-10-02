@@ -1,7 +1,7 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # incomplete/ might be removed later
-main/src/devcert/
+main/src/devcert/src
 
 # dependencies
 **/*/node_modules

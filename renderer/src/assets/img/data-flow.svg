@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="54px" height="79px" viewBox="0 0 54 79" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>data-flow</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="landing" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Desktop-HD" transform="translate(-1094.000000, -199.000000)">
+            <g id="data-flow" transform="translate(1094.000000, 199.000000)">
+                <g id="Group-3" transform="translate(0.000000, 51.000000)" fill="#3B8039">
+                    <ellipse id="Oval-3" cx="14.5384615" cy="13.7666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="38.5384615" cy="13.7666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="26.5384615" cy="24.0333333" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="3.92307692" cy="3.96666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="50.0769231" cy="3.96666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                </g>
+                <g id="Group-3" transform="translate(0.000000, 26.000000)" fill="#5CAD5A">
+                    <ellipse id="Oval-3" cx="14.5384615" cy="13.7666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="38.5384615" cy="13.7666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="26.5384615" cy="24.0333333" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="3.92307692" cy="3.96666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="50.0769231" cy="3.96666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                </g>
+                <g id="Group-3" fill="#8EC38C">
+                    <ellipse id="Oval-3" cx="14.5384615" cy="13.7666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="38.5384615" cy="13.7666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="26.5384615" cy="24.0333333" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="3.92307692" cy="3.96666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                    <ellipse id="Oval-3" cx="50.0769231" cy="3.96666667" rx="3.92307692" ry="3.96666667"></ellipse>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
