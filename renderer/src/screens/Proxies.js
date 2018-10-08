@@ -10,22 +10,22 @@ import NewProxyForm from 'screens/proxies/NewProxyForm';
 import DeleteProxyConfirmation from 'screens/proxies/DeleteProxyConfirmation';
 import plusIcon from 'assets/img/plus.svg';
 import colors from 'utils/colors';
+import StatusBar from 'screens/proxies/StatusBar';
 
 const store = createStore({
-  newProxyDockOpen: false,
   deleteDockOpen: false,
   proxyToDelete: null
 });
 
 const Proxies = () => {
-  const {collection} = proxiesStore.state;
-  const {newProxyDockOpen, deleteDockOpen, proxyToDelete} = store.state;
-  return (<div>
+  const {collection, isNewProxyDockOpen} = proxiesStore.state;
+  const {deleteDockOpen, proxyToDelete} = store.state;
+  return (<div className="relative">
     <div
-      className="absolute br-100 shadow-1 grow pointer dt tc fr nt3 right-0 mr5"
+      className="absolute br-100 shadow-1 grow pointer dt tc fr nt3 right-0 mr3"
       style={{backgroundColor: colors.yellow, height: 48, width: 48}}
       onClick={() => {
-        store.update({newProxyDockOpen: true})
+        proxiesStore.update({isNewProxyDockOpen: true});
       }}
     >
       <div className="dtc v-mid">
@@ -40,8 +40,8 @@ const Proxies = () => {
     </div>
     <Dock
       position='bottom'
-      isVisible={newProxyDockOpen}
-      onVisibleChange={visibility => store.update({newProxyDockOpen: visibility})}
+      isVisible={isNewProxyDockOpen}
+      onVisibleChange={visibility => proxiesStore.update({isNewProxyDockOpen: visibility})}
     >
       <NewProxyForm />  
     </Dock>
@@ -60,6 +60,7 @@ const Proxies = () => {
         }}
       />}
     </Dock>
+    <StatusBar />
   </div>);
 }
 

@@ -21,7 +21,7 @@ const Onboarding = () => {
 
     <div className="tc mt5 w-100">
       <img src={person} alt="" className="fixed bottom-0 left-0 ml5"/>
-      <Button text="Create your first proxy" href="/proxies" />
+      <Button text="Get started" href="/proxies" />
     </div>
   </React.Fragment>)
 };

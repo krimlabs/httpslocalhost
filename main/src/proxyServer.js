@@ -1,22 +1,15 @@
 const redbird = require('redbird');
-const {generateCertificate} = require('./utils/devcertInterface');
-const {domainsDir} = require('devcert/dist/constants');
-const db = require('./db.js');
+const exec = require('child-process-promise').exec;
 
-
-const getPaths = (domain) => {
-  return {
-    key: `${domainsDir}/${domain}/private-key.key`, 
-    cert: `${domainsDir}/${domain}/certificate.crt`
-  };
-};
-
+const db = require('./db');
 
 class ProxyServer {
-  constructor(){
+  constructor() {
     this._proxyServer = new redbird({
       ssl: {
-        port: 443
+        port: 8446,
+        key: './HTTPSLocalhost.key', 
+        cert: './HTTPSLocalhost.crt'
       }
     });
   }
@@ -35,10 +28,12 @@ class ProxyServer {
     await this.start();
   }
 
-  registerProxy(proxy) {
-    // TODO: Check if certs exist
+  async registerProxy(proxy) {
     this._proxyServer.register(proxy.from, proxy.to, {
-      ssl: getPaths(proxy.from)
+      ssl: {
+        key: './HTTPSLocalhost.key', 
+        cert: './HTTPSLocalhost.crt'
+      }
     }); 
   }
 }
@@ -46,4 +41,6 @@ class ProxyServer {
 const instance = new ProxyServer();
 Object.freeze(instance);
 
+instance.start();
 module.exports = instance;
+

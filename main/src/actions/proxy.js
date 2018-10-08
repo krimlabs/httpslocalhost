@@ -2,9 +2,8 @@ const Schema = require('validate');
 
 const validator = require('../utils/validator');
 const {stringCleaner} = require('../utils/string');
-const {generateCertificate, removeDomain} = require('../utils/devcertInterface');
 const db = require('../db');
-const proxyServer = require('../proxyServer');
+// const proxyServer = require('../proxyServer');
 
 const proxySchema = new Schema({
   from: {type: String, required: true, length: {min: 1}, message: 'From address is required.'},
@@ -14,9 +13,25 @@ const proxySchema = new Schema({
 const actions = {
   getProxies: async (req, res) => {
     const proxies = await db.proxies.find({});
-    res.send({proxies});
+    return res.send({proxies});
   },
   createProxy: async (req, res) => {
+    const {payload} = req;
+    const errors = validator(proxySchema, payload);
+    if (errors) {
+      return res.error(errors);
+    } 
+    
+    const existingProxies = await db.proxies.find({from: payload.from});
+    if (existingProxies.length > 0) {
+      return res.error({from: "From address already exists."})
+    } 
+      
+    const proxy = await db.proxies.insert(payload);
+    // proxyServer.registerProxy(proxy);
+    return res.send({proxy, msg: 'Proxy created successfully.'});     
+  }, 
+  createProxyWithCert: async (req, res) => {
     const {payload} = req;
     // const cleanedPayload = Object.keys(payload)
     //   .map(k => ({[k]: stringCleaner(payload[k])}))
@@ -28,19 +43,19 @@ const actions = {
     if (errors) {
       res.error(errors);
     } else {
-      const ssl = await generateCertificate(cleanedPayload.from);
-      if (ssl) {
-        const existingProxies = await db.proxies.find({from: cleanedPayload.from});
-        if (existingProxies.length > 0) {
-          res.error({from: "From address already exists."})
-        } else {
-          const proxy = await db.proxies.insert(cleanedPayload);
-          proxyServer.registerProxy(proxy);
-          res.send({proxy, msg: 'Proxy created successfully.'});    
-        }
-      } else {
-        res.error({from: 'Unable to generate certificate.'})
-      }
+      // //const ssl = await generateCertificate(cleanedPayload.from);
+      // if (ssl) {
+      //   const existingProxies = await db.proxies.find({from: cleanedPayload.from});
+      //   if (existingProxies.length > 0) {
+      //     res.error({from: "From address already exists."})
+      //   } else {
+      //     const proxy = await db.proxies.insert(cleanedPayload);
+      //     proxyServer.registerProxy(proxy);
+      //     res.send({proxy, msg: 'Proxy created successfully.'});    
+      //   }
+      // } else {
+      //   res.error({from: 'Unable to generate certificate.'})
+      // }
     }
   },
   deleteProxy: async (req, res) => {

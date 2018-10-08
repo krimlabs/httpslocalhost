@@ -5,6 +5,7 @@
   "main": "./src/index.js",
   "private": true,
   "dependencies": {
+    "child-process-promise": "^2.2.1",
     "devcert": "^1.0.0",
     "eiphop": "^1.0.6",
     "nedb": "^1.8.0",
@@ -15,7 +16,7 @@
   },
   "scripts": {
     "electron": "electron src",
-    "start": "NODE_ENV=dev nodemon --watch ./src/* --watch ./*.js --exec 'yarn electron'",
+    "start": "NODE_ENV=dev nodemon --watch ./src/*.js --watch ./src/**/*.js --exec 'yarn electron'",
     "pack": "NODE_ENV=prod electron-builder --dir",
     "dist": "NODE_ENV=prod electron-builder"
   },

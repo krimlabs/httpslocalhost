@@ -1,22 +1,23 @@
 const {app, BrowserWindow} = require('electron');
 const sudo = require('sudo-prompt');
 
-const proxyServer = require('./proxyServer');
 const api = require('./api')
+const db = require('./db');
 
 let win;
 
-function createWindow () {
+const createWindow = () => {
   win = new BrowserWindow({
+    frame: false,
     width: 800, height: 600, transparent: false,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/utils/preload.js'
   }});
 
+  win.setResizable(false)
+
   win.loadURL('http://localhost:3000');
-  proxyServer.start();
-  
   win.webContents.openDevTools();
 
   win.on('closed', () => {  
@@ -30,8 +31,6 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
-
-  proxyServer.stop();
 })
 
 app.on('activate', () => {

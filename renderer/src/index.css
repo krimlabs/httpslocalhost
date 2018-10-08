@@ -21,4 +21,10 @@ body {
 button:focus {outline:none;}
 
 /* Dim placeholder color */
-input::placeholder { color: #b2b2b2; }
+input::placeholder {color: #b2b2b2;}
+
+/* Blink css */
+.blink {animation: blinker 1s linear infinite;}
+@keyframes blinker {  
+  50% { opacity: 0; }
+}

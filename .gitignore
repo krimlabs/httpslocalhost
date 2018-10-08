@@ -1,8 +1,5 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-# incomplete/ might be removed later
-main/src/devcert/src
-
 # dependencies
 **/*/node_modules
 
@@ -26,4 +23,5 @@ yarn-debug.log*
 yarn-error.log*
 
 # database files
-/data
+data/*
+defaultEtcHosts

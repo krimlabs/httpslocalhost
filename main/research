@@ -1,0 +1,23 @@
+openssl req -x509 -out nue.crt -keyout nue.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=nue' -extensions EXT -config <( \
+   printf "[dn]\nCN=nue\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=@alt_names\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth\n[alt_names]\nDNS.1=nue\nDNS.2=nu\n")
+
+
+# generat certificate for multiple domains
+
+   openssl req -x509 -out nue.crt -keyout nue.key \
+  -newkey rsa:2048 -nodes -sha256 \
+  -subj '/CN=nue' -extensions EXT -config <( \
+   printf "[dn]\nCN=nue\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=@alt_names\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth\n[alt_names]\nDNS.1=nue\nDNS.2=nu\n")
+
+add cert to trust store
+sudo security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain -p ssl -p basic nue.crt
+
+
+
+add etc/host
+printf "%s\t%s\n" "$IP" "$HOSTNAME" | sudo tee -a /etc/hosts > /dev/null
+
+remove etc/host
+https://stackoverflow.com/questions/5410757/delete-lines-in-a-text-file-that-contain-a-specific-string

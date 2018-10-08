@@ -4,7 +4,8 @@ import {emit} from 'eiphop';
 const store = createStore({
   collection: [],
   fetchingCollection: true,
-  errors: {}
+  errors: {},
+  isNewProxyDockOpen: false
 });
 
 export const fetchProxies = () => {
@@ -25,7 +26,7 @@ export const createProxy = (from, to) => {
       store.update({collection: [...store.state.collection, proxy]});
     })
     .catch(errors => store.update({errors}))
-    .then(() => store.update({creatingProxy: false}))
+    .then(() => store.update({creatingProxy: false, isNewProxyDockOpen: false}))
   ;
 };
 

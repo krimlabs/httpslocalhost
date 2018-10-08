@@ -11,7 +11,6 @@ const Proxy = ({editable, proxy, onDelete}) => {
     <div className="absolute right-0 mt1">
       <div
         className="pointer dim h1"
-        // onClick={() => {deleteProxy(proxy._id)}}
         onClick={() => onDelete(proxy)}
       >
         <img src={deleteIcon} alt="" style={{height: '80%'}}/>
