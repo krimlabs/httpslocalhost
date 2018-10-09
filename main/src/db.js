@@ -11,4 +11,5 @@ const db = {
   proxies: dbFactory('proxies.db')
 };
 
+exports.dbFactory = dbFactory;
 module.exports = db;

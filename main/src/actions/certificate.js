@@ -10,7 +10,7 @@ const db = require('../db');
 const generateCertificateCommand = (domains, certficateName='HTTPSLocalhost') => {
   const domainsToDNSNames = domains.map((d, i) => `\nDNS.${i+1}=${d.from}`).join('') + '\n';
   const makeTempConfig = `printf "[dn]\nCN=${certficateName}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=@alt_names\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth\n[alt_names]${domainsToDNSNames}" > config.tmp`;
-  const makeCert = `openssl req -x509 -out ${certficateName}.crt -keyout HTTPSLocalhost.key -newkey rsa:2048 -nodes -sha256  -subj /CN=${certficateName} -extensions EXT -config config.tmp`;
+  const makeCert = `openssl req -x509 -out ${certficateName}.crt -keyout HTTPSLocalhost.key -newkey rsa:2048 -nodes -sha256  -subj "/CN=httpslocalhost.com/O=HTTPSLocalhost" -extensions EXT -config config.tmp`;
   return {
     isSudo: false, 
     certficateName,
@@ -50,10 +50,10 @@ const resetEtcHostsCommand = () => {
 };
 
 const startServer = () => {
-  const killCommand = `killall $(lsof -t -i:8446) || echo "Server not running"`;
-  const startCommand = `NODE_ENV=${process.env.NODE_ENV} node ./src/proxyServer.js &`;
+  const killCommand = `pkill -f proxyServer.js"`;
+  const startCommand = `NODE_ENV=${process.env.NODE_ENV} nohup node ./src/proxyServer.js >/dev/null 2>&1 &`;
   return {
-    isSudo: false,
+    isSudo: true,
     cmd: `${killCommand}; ${startCommand}`
   };
 };
@@ -65,7 +65,8 @@ const actions = {
       resetEtcHostsCommand(),
       generateCertificateCommand(domains),
       addCertToTrustStoreCommand('./HTTPSLocalhost.crt'), // figure out the path
-      addDomainsToEtcHostsCommand(domains)
+      addDomainsToEtcHostsCommand(domains),
+      startServer()
     ];
 
     const modestCommands = commands.filter(c => !c.isSudo).map(c => c.cmd).join(';');
@@ -87,25 +88,36 @@ const actions = {
             res.error({error, stderr, stdout}) 
           } else {
             console.log("Starting server");
+            res.send({msg: "Certificate and routing ready."});   
             
-            const thenable = childProcess.spawn(startServer().cmd, {shell: true});
-            console.log('[spawn] childProcess.pid: ', thenable.pid);
-            thenable.childProcess.stdout.on('data', function (data) {
-              console.log('[spawn] stdout: ', data.toString());
-            });
+            // const thenable = childProcess.spawn(startServer().cmd, {shell: true});
 
-            thenable.childProcess.stderr.on('data', function (data) {
-              console.log('[spawn] stderr: ', data.toString());
-            });
+            // // stream stderr and stdout
+            // thenable.childProcess.stdout.on('data', (data) => {
+            //   console.log('[spawn] stdout: ', data.toString());
+            // });
 
-            thenable.then(function () {
-              console.log('[spawn] done!');
-            })
-            .catch(function (err) {
-              console.error('[spawn] ERROR: ', err);
-            });
-          
-            res.send({msg: "Certificate and routing ready."});        
+            // thenable.childProcess.stderr.on('data', (data) => {
+            //   console.log('[spawn] stderr: ', data.toString());
+            // });
+
+            // thenable
+            //   .then(() => {
+            //     const purgeFiles = [purgeFile('HTTPSLocalhost.crt', 'HTTPSLocalhost.key')];
+            //     childProcess.exec(purgeFiles.map(p => p.cmd).join(';'))
+            //       .then(() => {
+            //         res.send({msg: "Certificate and routing ready."});   
+            //       })
+            //       .catch(err => {
+            //         console.log('Unable to delete certs');
+            //         res.error({err});
+            //       })
+            //     ;
+            //   })
+            //   .catch((err) => {
+            //     console.error('[spawn] ERROR: ', err);
+            //   })
+            // ;
           }
         });
       })

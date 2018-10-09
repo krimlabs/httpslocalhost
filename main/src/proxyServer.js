@@ -7,7 +7,7 @@ class ProxyServer {
   constructor() {
     this._proxyServer = new redbird({
       ssl: {
-        port: 8446,
+        port: 443,
         key: './HTTPSLocalhost.key', 
         cert: './HTTPSLocalhost.crt'
       }
