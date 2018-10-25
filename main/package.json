@@ -6,10 +6,13 @@
   "private": true,
   "dependencies": {
     "child-process-promise": "^2.2.1",
-    "devcert": "^1.0.0",
     "eiphop": "^1.0.6",
+    "fs-extra": "^7.0.0",
     "nedb": "^1.8.0",
     "nedb-promises": "^3.0.1",
+    "node-gyp": "^3.8.0",
+    "node-ipc": "^9.1.1",
+    "pkg": "^4.3.4",
     "redbird": "^0.8.0",
     "sudo-prompt": "^8.2.3",
     "validate": "^4.5.1"
@@ -18,7 +21,8 @@
     "electron": "electron src",
     "start": "NODE_ENV=dev nodemon --watch ./src/*.js --watch ./src/**/*.js --exec 'yarn electron'",
     "pack": "NODE_ENV=prod electron-builder --dir",
-    "dist": "NODE_ENV=prod electron-builder"
+    "dist": "NODE_ENV=prod electron-builder",
+    "buildProxyServer": "pkg ./src/proxyServer.js --targets=node8-macos-x64"
   },
   "devDependencies": {
     "electron": "^2.0.9",
@@ -31,7 +35,10 @@
     "mac": {
       "category": "public.app-category.developer-tools"
     },
-    "productName": "HTTPS Localhost"
+    "productName": "HTTPSLocalhost",
+    "extraResources": [
+      "./src/proxyServer.js"
+    ]
   },
   "author": "Shivek Khurana",
   "license": "ISC"

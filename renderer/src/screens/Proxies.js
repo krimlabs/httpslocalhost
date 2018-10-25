@@ -11,6 +11,8 @@ import DeleteProxyConfirmation from 'screens/proxies/DeleteProxyConfirmation';
 import plusIcon from 'assets/img/plus.svg';
 import colors from 'utils/colors';
 import StatusBar from 'screens/proxies/StatusBar';
+import Loading from 'screens/proxies/Loading';
+import Onboarding from 'screens/proxies/Onboarding';
 
 const store = createStore({
   deleteDockOpen: false,
@@ -18,26 +20,35 @@ const store = createStore({
 });
 
 const Proxies = () => {
-  const {collection, isNewProxyDockOpen} = proxiesStore.state;
+  const {collection, isNewProxyDockOpen, fetchingCollection} = proxiesStore.state;
   const {deleteDockOpen, proxyToDelete} = store.state;
+
+  if (fetchingCollection) return (<Loading />);
   return (<div className="relative">
-    <div
-      className="absolute br-100 shadow-1 grow pointer dt tc fr nt3 right-0 mr3"
-      style={{backgroundColor: colors.yellow, height: 48, width: 48}}
-      onClick={() => {
-        proxiesStore.update({isNewProxyDockOpen: true});
-      }}
-    >
-      <div className="dtc v-mid">
-        <img src={plusIcon} className="h1 mt1"/>
-      </div>
-    </div>
-    <div className="ph4 pt5 overflow-y-scroll" style={{height: '88vh'}}>
-      {collection.map((proxy, key) => (<Proxy
-        key={key} editable={false} proxy={proxy}
-        onDelete={(proxyToDelete) => store.update({deleteDockOpen: true, proxyToDelete})}
-      />))}
-    </div>
+    {collection.length > 0 ?
+      <React.Fragment>
+        <div
+          className="absolute br-100 shadow-1 grow pointer dt tc fr nt3 right-0 mr3"
+          style={{backgroundColor: colors.yellow, height: 48, width: 48}}
+          onClick={() => {
+            proxiesStore.update({isNewProxyDockOpen: true});
+          }}
+        >
+          <div className="dtc v-mid">
+            <img src={plusIcon} className="h1 mt1"/>
+          </div>
+        </div>
+        <div className="ph4 pt5 overflow-y-scroll" style={{height: '88vh'}}>
+          {collection.map((proxy, key) => (<Proxy
+            key={key} editable={false} proxy={proxy}
+            onDelete={(proxyToDelete) => store.update({deleteDockOpen: true, proxyToDelete})}
+          />))}
+        </div> 
+      </React.Fragment>:
+      <Onboarding 
+        onGetStartedClick={() => {proxiesStore.update({isNewProxyDockOpen: true})}}
+      />
+    }
     <Dock
       position='bottom'
       isVisible={isNewProxyDockOpen}
@@ -60,7 +71,7 @@ const Proxies = () => {
         }}
       />}
     </Dock>
-    <StatusBar />
+    {collection.length > 0 && <StatusBar />}
   </div>);
 }
 

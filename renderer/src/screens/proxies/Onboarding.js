@@ -7,7 +7,7 @@ import comms from 'assets/img/comms.png';
 import Button from 'components/ui/Button';
 
 
-const Onboarding = () => {
+const Onboarding = ({onGetStartedClick}) => {
   return (<React.Fragment>
     <div className="tc w-80 center gray pt4 pb3">
       Manage TLS secure local domains by proxying them to localhost.
@@ -21,7 +21,7 @@ const Onboarding = () => {
 
     <div className="tc mt5 w-100">
       <img src={person} alt="" className="fixed bottom-0 left-0 ml5"/>
-      <Button text="Get started" href="/proxies" />
+      <Button text="Get started" onClick={onGetStartedClick} />
     </div>
   </React.Fragment>)
 };

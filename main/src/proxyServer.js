@@ -1,22 +1,25 @@
 const redbird = require('redbird');
-const exec = require('child-process-promise').exec;
-
-const db = require('./db');
+const fsExtra = require('fs-extra');
 
 class ProxyServer {
-  constructor() {
+  constructor(tmpPath, proxies) {
     this._proxyServer = new redbird({
       ssl: {
         port: 443,
-        key: './HTTPSLocalhost.key', 
-        cert: './HTTPSLocalhost.crt'
+        key: `${tmpPath}/HTTPSLocalhost.key`, 
+        cert: `${tmpPath}/HTTPSLocalhost.crt`
       }
     });
+
+    this.tmpPath = tmpPath;
+    this.proxies = JSON.parse(proxies);
   }
 
   async start() {
-    const proxies = await db.proxies.find({});
-    proxies.map(p => this.registerProxy(p));
+    this.proxies.map(p => this.registerProxy(p));
+
+    // !! BOOM !!
+    fsExtra.emptyDir(this.tmpPath);
   }
 
   async stop() {
@@ -31,14 +34,14 @@ class ProxyServer {
   async registerProxy(proxy) {
     this._proxyServer.register(proxy.from, proxy.to, {
       ssl: {
-        key: './HTTPSLocalhost.key', 
-        cert: './HTTPSLocalhost.crt'
+        key: `${this.tmpPath}/HTTPSLocalhost.key`, 
+        cert: `${this.tmpPath}/HTTPSLocalhost.crt`
       }
     }); 
   }
 }
 
-const instance = new ProxyServer();
+const instance = new ProxyServer(process.argv[2], process.argv[3]);
 Object.freeze(instance);
 
 instance.start();

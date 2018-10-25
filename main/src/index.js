@@ -8,8 +8,8 @@ let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
-    frame: false,
-    width: 800, height: 600, transparent: false,
+    titleBarStyle: 'hidden',
+    width: 480, height: 600,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/utils/preload.js'
@@ -18,7 +18,7 @@ const createWindow = () => {
   win.setResizable(false)
 
   win.loadURL('http://localhost:3000');
-  win.webContents.openDevTools();
+  // win.webContents.openDevTools();
 
   win.on('closed', () => {  
     win = null

@@ -27,3 +27,5 @@ data/*
 defaultEtcHosts
 HTTPSLocalhost.crt
 HTTPSLocalhost.key
+main/proxyServer
+main/main-v1.0.0.tgz

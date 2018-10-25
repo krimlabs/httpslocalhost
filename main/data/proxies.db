@@ -1,5 +1,2 @@
-{"from":"no.way","to":"localhost:5000","_id":"9dbNuIOhNOixfTzt","createdAt":{"$$date":1538740110146},"updatedAt":{"$$date":1538740110146}}
-{"from":"nike","to":"localhost:5000","_id":"L2xbRVBLSAmh74rQ","createdAt":{"$$date":1539012121757},"updatedAt":{"$$date":1539012121757}}
-{"from":"hello","to":"localhost:5000","_id":"LuCGedAeSGHElw4h","createdAt":{"$$date":1538724389267},"updatedAt":{"$$date":1538724389267}}
-{"from":"check.loca","to":"localhost:5000","_id":"XhVRQJA5KTsurvCw","createdAt":{"$$date":1538739558450},"updatedAt":{"$$date":1538739558450}}
-{"from":"a","to":"localhost:5000","_id":"vlibI2H0jiWeFBjW","createdAt":{"$$date":1538648437883},"updatedAt":{"$$date":1538648437883}}
+{"from":"demo.local","to":"localhost:8000","_id":"GilfMhe368Yya8dM","createdAt":{"$$date":1539258782209},"updatedAt":{"$$date":1539258782209}}
+{"from":"nordics.local","to":"localhost:8031","_id":"vMxMvZj9j8K7jCX0","createdAt":{"$$date":1540454287687},"updatedAt":{"$$date":1540454287687}}

@@ -1,26 +1,31 @@
 const Schema = require('validate');
 const sudo = require('sudo-prompt');
 const childProcess = require('child-process-promise');
+const fs = require('fs');
 
 const validator = require('../utils/validator');
 const {stringCleaner} = require('../utils/string');
 const db = require('../db');
-// const proxyServer = require('../proxyServer');
+const {tmpPath} = require('../utils/common');
+
 
 const generateCertificateCommand = (domains, certficateName='HTTPSLocalhost') => {
+  const configPath = `${tmpPath}/ssl_cert_config`;
   const domainsToDNSNames = domains.map((d, i) => `\nDNS.${i+1}=${d.from}`).join('') + '\n';
-  const makeTempConfig = `printf "[dn]\nCN=${certficateName}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=@alt_names\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth\n[alt_names]${domainsToDNSNames}" > config.tmp`;
-  const makeCert = `openssl req -x509 -out ${certficateName}.crt -keyout HTTPSLocalhost.key -newkey rsa:2048 -nodes -sha256  -subj "/CN=httpslocalhost.com/O=HTTPSLocalhost" -extensions EXT -config config.tmp`;
+  const config = `[dn]\nCN=${certficateName}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=@alt_names\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth\n[alt_names]${domainsToDNSNames}`;
+  fs.writeFileSync(configPath, config, {flag: 'w'});
+  const makeCert = `openssl req -x509 -out ${tmpPath}/${certficateName}.crt -keyout ${tmpPath}/HTTPSLocalhost.key -newkey rsa:2048 -nodes -sha256  -subj "/CN=HTTPSLocalhost/O=HTTPSLocalhost" -extensions EXT -config ${configPath}`;
+
   return {
     isSudo: false, 
     certficateName,
-    cmd: `${makeTempConfig}; ${makeCert}; rm config.tmp`
+    cmd: `${makeCert}`
   };
 };
 
-const addCertToTrustStoreCommand = (certficatePath) => {
+const addCertToTrustStoreCommand = () => {
   const deleteExitingCertificate = `security find-certificate -c "HTTPSLocalhost" -a -Z | awk '/SHA-1/{system("security delete-certificate -Z "$NF)}'`;
-  const addNewCertificate = `security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain -p ssl -p basic ${certficatePath}`
+  const addNewCertificate = `security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain -p ssl -p basic ${tmpPath}/HTTPSLocalhost.crt`
   return {
     isSudo: true,
     cmd: `${deleteExitingCertificate}; ${addNewCertificate}`
@@ -49,12 +54,19 @@ const resetEtcHostsCommand = () => {
   }
 };
 
-const startServer = () => {
-  const killCommand = `pkill -f proxyServer.js"`;
-  const startCommand = `NODE_ENV=${process.env.NODE_ENV} nohup node ./src/proxyServer.js >/dev/null 2>&1 &`;
+const killServer = () => {
   return {
     isSudo: true,
-    cmd: `${killCommand}; ${startCommand}`
+    cmd: `ps | grep proxyServer.js | awk '{print "kill -9 " $1}' | sh`
+  }
+};
+
+const startServer = async () => {
+  const proxies = (await db.proxies.find({})).map(c => ({from: c.from, to: c.to}));
+  const startCommand = `./proxyServer '${tmpPath}' '${JSON.stringify(proxies)}' &`;
+  return {
+    isSudo: true,
+    cmd: startCommand
   };
 };
 
@@ -64,70 +76,46 @@ const actions = {
     const commands = [
       resetEtcHostsCommand(),
       generateCertificateCommand(domains),
-      addCertToTrustStoreCommand('./HTTPSLocalhost.crt'), // figure out the path
+      addCertToTrustStoreCommand(), // figure out the path
       addDomainsToEtcHostsCommand(domains),
-      startServer()
+      killServer(), // kill before starting, this is important
+      await startServer()
     ];
 
     const modestCommands = commands.filter(c => !c.isSudo).map(c => c.cmd).join(';');
     const immodestCommands = commands.filter(c => c.isSudo).map(c => c.cmd).join(';');
 
+    try {
+      childProcess.exec(modestCommands)
+        .then(() => {
+          const options = {
+            name: 'HTTPSLocalhost',
+            // icns: '/Applications/Electron.app/Contents/Resources/Electron.icns', // (optional)
+          };
 
-    childProcess.exec(modestCommands)
-      .then(() => {
-        const options = {
-          name: 'HTTPSLocalhost',
-          // icns: '/Applications/Electron.app/Contents/Resources/Electron.icns', // (optional)
-        };
-
-
-        // run all commands in one sudo
-        sudo.exec(immodestCommands, options, async (error, stdout, stderr) => {
-          if (error) {
-            console.log(error, stdout, stderr)
-            res.error({error, stderr, stdout}) 
-          } else {
-            console.log("Starting server");
-            res.send({msg: "Certificate and routing ready."});   
-            
-            // const thenable = childProcess.spawn(startServer().cmd, {shell: true});
-
-            // // stream stderr and stdout
-            // thenable.childProcess.stdout.on('data', (data) => {
-            //   console.log('[spawn] stdout: ', data.toString());
-            // });
-
-            // thenable.childProcess.stderr.on('data', (data) => {
-            //   console.log('[spawn] stderr: ', data.toString());
-            // });
-
-            // thenable
-            //   .then(() => {
-            //     const purgeFiles = [purgeFile('HTTPSLocalhost.crt', 'HTTPSLocalhost.key')];
-            //     childProcess.exec(purgeFiles.map(p => p.cmd).join(';'))
-            //       .then(() => {
-            //         res.send({msg: "Certificate and routing ready."});   
-            //       })
-            //       .catch(err => {
-            //         console.log('Unable to delete certs');
-            //         res.error({err});
-            //       })
-            //     ;
-            //   })
-            //   .catch((err) => {
-            //     console.error('[spawn] ERROR: ', err);
-            //   })
-            // ;
-          }
-        });
-      })
-      .catch(err => {
-        res.error({err});
-      })
-    ;
+          // run all commands in one sudo
+          sudo.exec(immodestCommands, options, async (error, stdout, stderr) => {
+            if (error) {
+              res.error({error, stderr, stdout}) 
+            } else {
+              res.send({msg: "Certificate and routing ready."});   
+            }
+          });
+        })
+        .catch(err => {
+          res.error({err});
+        })
+      ;  
+    } catch(error) {
+      res.error({error});
+    }
+    
   },
   removeCertsAndClearHosts: async (req, res) => {
     // do as said
+  },
+  stopServer: () => {
+
   }
 };
 
