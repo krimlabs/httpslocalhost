@@ -9,6 +9,7 @@
 # production
 renderer/build
 main/dist
+main/build/html
 
 
 # misc

@@ -1,5 +1,10 @@
 const {app} = require('electron');
+const childProcess = require('child-process-promise');
 
-const tmpPath = `${process.env.NODE_ENV === 'dev' ? '.' : app.getAppPath('userData')}/tmp`;
+const userDataPath = `${process.env.NODE_ENV === 'dev' ? '.' : app.getAppPath('userData')}`;
+const tmpPath = `${userDataPath}/tmp`;
 
-module.exports = {tmpPath};
+// create tmp folder if it doesn't already exist
+childProcess.exec(`mkdir -p ${tmpPath}`);
+
+module.exports = {tmpPath, userDataPath};

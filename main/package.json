@@ -22,22 +22,23 @@
     "start": "NODE_ENV=dev nodemon --watch ./src/*.js --watch ./src/**/*.js --exec 'yarn electron'",
     "pack": "NODE_ENV=prod electron-builder --dir",
     "dist": "NODE_ENV=prod electron-builder",
+    "buildRenderer": "cd ../renderer; yarn build; cd ../main; cp -r ../renderer/build ./build/html",
     "buildProxyServer": "pkg ./src/proxyServer.js --targets=node8-macos-x64"
   },
   "devDependencies": {
-    "electron": "^2.0.9",
+    "electron": "2.0.9",
     "electron-builder": "^20.28.4",
     "nodemon": "^1.18.4"
   },
   "build": {
-    "asar": false,
     "appId": "com.httpslocalhost",
     "mac": {
       "category": "public.app-category.developer-tools"
     },
     "productName": "HTTPSLocalhost",
-    "extraResources": [
-      "./src/proxyServer.js"
+    "extraResources": [],
+    "files": [
+      "build/**/*"
     ]
   },
   "author": "Shivek Khurana",

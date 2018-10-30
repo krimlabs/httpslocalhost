@@ -1,24 +1,31 @@
-const {app, BrowserWindow} = require('electron');
-const sudo = require('sudo-prompt');
+const {app, BrowserWindow} = require('electron')
+const path = require('path')
+const url = require('url')
 
 const api = require('./api')
-const db = require('./db');
+const db = require('./db')
 
 let win;
 
 const createWindow = () => {
   win = new BrowserWindow({
     titleBarStyle: 'hidden',
-    width: 480, height: 600,
+    width: 880, height: 600,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/utils/preload.js'
   }});
 
   win.setResizable(false)
-
-  win.loadURL('http://localhost:3000');
-  // win.webContents.openDevTools();
+  console.log(`file://${__dirname}/../build/html/index.html`);
+  win.loadURL(`file://${__dirname}/../build/html/index.html`);
+  // if (process.env.NODE_ENV === 'dev') {
+  //   win.loadURL('http://localhost:3000');  
+  // } else {
+  //   win.loadURL(`file://${__dirname}/built_ui/index.html`);
+  // }
+  
+  win.webContents.openDevTools();
 
   win.on('closed', () => {  
     win = null

@@ -3,24 +3,24 @@ const sudo = require('sudo-prompt');
 const childProcess = require('child-process-promise');
 const fs = require('fs');
 
-const validator = require('../utils/validator');
-const {stringCleaner} = require('../utils/string');
 const db = require('../db');
-const {tmpPath} = require('../utils/common');
+const {tmpPath, userDataPath} = require('../utils/common');
 
 
 const generateCertificateCommand = (domains, certficateName='HTTPSLocalhost') => {
-  const configPath = `${tmpPath}/ssl_cert_config`;
-  const domainsToDNSNames = domains.map((d, i) => `\nDNS.${i+1}=${d.from}`).join('') + '\n';
-  const config = `[dn]\nCN=${certficateName}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=@alt_names\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth\n[alt_names]${domainsToDNSNames}`;
-  fs.writeFileSync(configPath, config, {flag: 'w'});
-  const makeCert = `openssl req -x509 -out ${tmpPath}/${certficateName}.crt -keyout ${tmpPath}/HTTPSLocalhost.key -newkey rsa:2048 -nodes -sha256  -subj "/CN=HTTPSLocalhost/O=HTTPSLocalhost" -extensions EXT -config ${configPath}`;
-
-  return {
-    isSudo: false, 
-    certficateName,
-    cmd: `${makeCert}`
-  };
+  try {
+    const configPath = `${tmpPath}/ssl_cert_config`;
+    const domainsToDNSNames = domains.map((d, i) => `\nDNS.${i+1}=${d.from}`).join('') + '\n';
+    const config = `[dn]\nCN=${certficateName}\n[req]\ndistinguished_name = dn\n[EXT]\nsubjectAltName=@alt_names\nkeyUsage=digitalSignature\nextendedKeyUsage=serverAuth\n[alt_names]${domainsToDNSNames}`;
+    fs.writeFileSync(configPath, config, {flag: 'w'});
+    const makeCert = `openssl req -x509 -out ${tmpPath}/${certficateName}.crt -keyout ${tmpPath}/HTTPSLocalhost.key -newkey rsa:2048 -nodes -sha256  -subj "/CN=HTTPSLocalhost/O=HTTPSLocalhost" -extensions EXT -config ${configPath}`;
+    return {
+      isSudo: false, 
+      certficateName,
+      cmd: `${makeCert}`
+    };
+  } catch(error) {
+  }
 };
 
 const addCertToTrustStoreCommand = () => {
@@ -40,30 +40,27 @@ const purgeFile = (filePath, isSudo=false) => {
 }
 
 const addDomainsToEtcHostsCommand = (domains) => {
-  const domainsText = domains.map(d => `127.0.0.1\t${d.from}\n`).join('');
+  const domainsAddCommands = domains
+    .map(d => `127.0.0.1\t${d.from}\n`)
+    .map(line => `grep -q -F '${line}' /etc/hosts || echo '${line}' >> /etc/hosts`)
+  ;
   return {
     isSudo: true,
-    cmd: `cat /etc/hosts > defaultEtcHosts; printf "\n\n## Added by HTTPSLocalhost ##\n\n${domainsText}" | tee -a /etc/hosts > /dev/null`
+    cmd: domainsAddCommands.join(';')
   };
 };
 
-const resetEtcHostsCommand = () => {
-  return {
-    isSudo: true,
-    cmd: 'cat defaultEtcHosts > /etc/hosts; rm defaultEtcHosts'
-  }
-};
 
 const killServer = () => {
   return {
     isSudo: true,
-    cmd: `ps | grep proxyServer.js | awk '{print "kill -9 " $1}' | sh`
+    cmd: `ps | grep proxyServer | awk '{print "kill -9 " $1}' | sh`
   }
 };
 
 const startServer = async () => {
   const proxies = (await db.proxies.find({})).map(c => ({from: c.from, to: c.to}));
-  const startCommand = `./proxyServer '${tmpPath}' '${JSON.stringify(proxies)}' &`;
+  const startCommand = `./${userDataPath}/proxyServer '${tmpPath}' '${JSON.stringify(proxies)}' &`;
   return {
     isSudo: true,
     cmd: startCommand
@@ -74,13 +71,13 @@ const actions = {
   generateCertsAddToTrustStoreAndEtcHosts: async (req, res) => {
     const domains = await db.proxies.find({});
     const commands = [
-      resetEtcHostsCommand(),
       generateCertificateCommand(domains),
       addCertToTrustStoreCommand(), // figure out the path
       addDomainsToEtcHostsCommand(domains),
       killServer(), // kill before starting, this is important
       await startServer()
     ];
+
 
     const modestCommands = commands.filter(c => !c.isSudo).map(c => c.cmd).join(';');
     const immodestCommands = commands.filter(c => c.isSudo).map(c => c.cmd).join(';');

@@ -16,5 +16,6 @@
   "scripts": {
     "start": "BROWSER=none NODE_PATH=./src react-scripts start",
     "build": "NODE_PATH=./src react-scripts build"
-  }
+  },
+  "homepage": "./"
 }

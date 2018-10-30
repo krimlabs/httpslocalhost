@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {BrowserRouter, Route} from 'react-router-dom';
+import {HashRouter, Route} from 'react-router-dom';
 import {setupFrontendListener} from 'eiphop';
 
 import 'index.css';
@@ -13,11 +13,11 @@ const electron = window.electron;
 setupFrontendListener(electron);
 
 const App = () => {
-  return (<BrowserRouter>
+  return (<HashRouter>
     <Container>
       <Route exact path='/' component={Proxies} />
     </Container>
-  </BrowserRouter>);
+  </HashRouter>);
 };
 
 ReactDOM.render(<App />, document.getElementById('root'));
