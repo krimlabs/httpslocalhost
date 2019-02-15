@@ -8,7 +8,7 @@ const {tmpPath, userDataPath} = require('../utils/common')
 
 const http = require('http')
 const log = (msg) => {
-  http.get(`http://localhost:8080/?msg=${msg}`)
+  //http.get(`http://localhost:8080/?msg=${msg}`)
 }
 
 const generateCertificateCommand = (domains, certficateName='HTTPSLocalhost') => {
@@ -71,10 +71,10 @@ const killServer = () => {
 };
 
 const startServer = async () => {
-  log('startServer')
-  const executableBasePath = process.env.NODE_ENV === 'dev' ? '' : process.resourcesPath;
+  log('startServer ' + __dirname)
+  const executableBasePath = (process.env.NODE_ENV === 'dev' ? `${__dirname}/../..` : process.resourcesPath)+'/build/executables';
   const proxies = (await db.proxies.find({deleted: {$exists: false}})).map(c => ({from: c.from, to: c.to}))
-  const startCommand = `cd ${executableBasePath}/build/executables; ./proxyServer '${tmpPath}' '${JSON.stringify(proxies)}' &`
+  const startCommand = `cd ${executableBasePath}; ./proxyServer '${tmpPath}' '${JSON.stringify(proxies)}' &`
   log(startCommand)
   return {
     isSudo: true,

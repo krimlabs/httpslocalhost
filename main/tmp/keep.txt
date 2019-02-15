@@ -1,0 +1,2 @@
+keep.txt
+This file is here only to make sure that this folder gets copied

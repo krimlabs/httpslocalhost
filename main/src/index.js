@@ -8,7 +8,7 @@ const {userDataPath} = require('./utils/common')
 
 const http = require('http')
 const log = (msg) => {
-  http.get(`http://localhost:8080/?msg=${msg}`)
+  //http.get(`http://localhost:8080/?msg=${msg}`)
 }
 
 let win;
@@ -16,7 +16,7 @@ log('---> start')
 const createWindow = () => {
   win = new BrowserWindow({
     titleBarStyle: 'hidden',
-    width: process.env.NODE_ENV === 'dev' ? 880 : 881, height: 600,
+    width: process.env.NODE_ENV === 'dev' ? 880 : 440, height: 600,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/utils/preload.js'
@@ -29,8 +29,7 @@ const createWindow = () => {
   } else {
     log("---> dirname " + __dirname)
     log(`file://${process.resourcesPath}/build/html/index.html`)
-    win.loadURL(`file://${process.resourcesPath}/build/html/index.html`);
-    win.webContents.openDevTools()
+    win.loadURL(`file://${process.resourcesPath}/build/html/index.html`)
   }
 
   win.on('closed', () => {  

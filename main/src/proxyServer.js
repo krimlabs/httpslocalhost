@@ -5,6 +5,7 @@ class ProxyServer {
   constructor(tmpPath, proxies) {
     console.log('ProxyServer#constructor')
     this._proxyServer = new redbird({
+      port: 65231,
       ssl: {
         port: 443,
         key: `${tmpPath}/HTTPSLocalhost.key`, 
@@ -45,6 +46,7 @@ class ProxyServer {
   }
 }
 
+console.log("process.cwd() = " + process.cwd());
 const instance = new ProxyServer(process.argv[2], process.argv[3]);
 Object.freeze(instance);
 

@@ -19,11 +19,12 @@
     "electron": "electron src",
     "start": "NODE_ENV=dev nodemon --watch ./src/*.js --watch ./src/**/*.js --exec 'yarn electron'",
     "pack": "NODE_ENV=prod electron-builder --dir",
-    "dist": "NODE_ENV=prod electron-builder",
+    "dist": "rm -rf dist/; NODE_ENV=prod electron-builder",
     "test": "./node_modules/mocha/bin/mocha test/**/*.js",
     "build:renderer": "cd ../renderer; yarn build; cd ../main; cp -r ../renderer/build ./build/html",
-    "build:deasyncNode": "cd node_modules/deasync; ./../.bin/node-gyp rebuild; cd ../../",
-    "build:proxyServer": "pkg ./src/proxyServer.js --targets=node8-macos-x64 --out-path ./build/executables"
+    "build:deasyncNode": "nvm use system; cd node_modules/deasync; ./../.bin/node-gyp rebuild; cd ../../",
+    "copy:deasyncNodeToBuild": "cp node_modules/deasync/build/Release/deasync.node ./build/executables",
+    "build:proxyServer": "yarn build:deasyncNode; yarn copy:deasyncNodeToBuild; pkg ./src/proxyServer.js --targets=node8-macos-x64 --out-path ./build/executables;"
   },
   "devDependencies": {
     "electron": "2.0.9",
@@ -31,6 +32,9 @@
     "node-gyp": "^3.8.0",
     "nodemon": "^1.18.4",
     "pkg": "^4.3.4"
+  },
+  "pkg": {
+    "assets": ["node_modules/deasync/**/*"]
   },
   "build": {
     "appId": "com.httpslocalhost",
