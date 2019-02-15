@@ -7,6 +7,7 @@ const store = createStore({
 });
 
 export const startServer = () => {
+  console.log(2)
   store.update({isServerBooting: true});
   emit('generateCertsAddToTrustStoreAndEtcHosts')
     .then(res => {

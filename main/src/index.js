@@ -4,28 +4,34 @@ const url = require('url')
 
 const api = require('./api')
 const db = require('./db')
+const {userDataPath} = require('./utils/common')
+
+const http = require('http')
+const log = (msg) => {
+  http.get(`http://localhost:8080/?msg=${msg}`)
+}
 
 let win;
-
+log('---> start')
 const createWindow = () => {
   win = new BrowserWindow({
     titleBarStyle: 'hidden',
-    width: 880, height: 600,
+    width: process.env.NODE_ENV === 'dev' ? 880 : 881, height: 600,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/utils/preload.js'
   }});
 
   win.setResizable(false)
-  console.log(`file://${__dirname}/../build/html/index.html`);
-  win.loadURL(`file://${__dirname}/../build/html/index.html`);
-  // if (process.env.NODE_ENV === 'dev') {
-  //   win.loadURL('http://localhost:3000');  
-  // } else {
-  //   win.loadURL(`file://${__dirname}/built_ui/index.html`);
-  // }
-  
-  win.webContents.openDevTools();
+  if (process.env.NODE_ENV === 'dev') {
+    win.loadURL('http://localhost:3000')
+    win.webContents.openDevTools()
+  } else {
+    log("---> dirname " + __dirname)
+    log(`file://${process.resourcesPath}/build/html/index.html`)
+    win.loadURL(`file://${process.resourcesPath}/build/html/index.html`);
+    win.webContents.openDevTools()
+  }
 
   win.on('closed', () => {  
     win = null

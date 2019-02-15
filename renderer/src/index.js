@@ -12,6 +12,11 @@ import Container from 'components/Container';
 const electron = window.electron;
 setupFrontendListener(electron);
 
+// log to console from main
+electron.ipcRenderer.on('rLog', (message) => {
+  console.log(message);
+});
+
 const App = () => {
   return (<HashRouter>
     <Container>

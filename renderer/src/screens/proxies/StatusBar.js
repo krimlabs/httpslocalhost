@@ -44,6 +44,7 @@ const StatusBar = () => {
         confirmLabel={"Ok, I'll give sudo access"}
         onCancel={() => store.update({isStartServerInfoDockOpen: false})}
         onConfirm={() => {
+          console.log(1)
           store.update({isStartServerInfoDockOpen: false});
           startServer();
         }}

@@ -1,8 +1,9 @@
-const redbird = require('redbird');
-const fsExtra = require('fs-extra');
+const redbird = require('redbird')
+const fsExtra = require('fs-extra')
 
 class ProxyServer {
   constructor(tmpPath, proxies) {
+    console.log('ProxyServer#constructor')
     this._proxyServer = new redbird({
       ssl: {
         port: 443,
@@ -11,14 +12,16 @@ class ProxyServer {
       }
     });
 
-    this.tmpPath = tmpPath;
-    this.proxies = JSON.parse(proxies);
+    this.tmpPath = tmpPath
+    this.proxies = JSON.parse(proxies)
   }
 
   async start() {
-    this.proxies.map(p => this.registerProxy(p));
+    console.log('ProxyServer#start')
+    this.proxies.map(p => this.registerProxy(p))
 
     // !! BOOM !!
+    console.log('ProxyServer#start will delete tmp certs')
     fsExtra.emptyDir(this.tmpPath);
   }
 
@@ -32,6 +35,7 @@ class ProxyServer {
   }
 
   async registerProxy(proxy) {
+    console.log('ProxyServer#register ' + JSON.stringify(proxy))
     this._proxyServer.register(proxy.from, proxy.to, {
       ssl: {
         key: `${this.tmpPath}/HTTPSLocalhost.key`, 

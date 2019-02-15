@@ -1,3 +1,2 @@
-{"from":"cyber.local","to":"localhost:8030","_id":"5rbKsVWgXE4fF3pH","createdAt":{"$$date":1540808049104},"updatedAt":{"$$date":1540808049104}}
-{"from":"demo.local","to":"localhost:8000","_id":"GilfMhe368Yya8dM","createdAt":{"$$date":1539258782209},"updatedAt":{"$$date":1539258782209}}
-{"from":"nordics.local","to":"localhost:8031","_id":"vMxMvZj9j8K7jCX0","createdAt":{"$$date":1540454287687},"updatedAt":{"$$date":1540454287687}}
+{"from":"check","to":"localhost:5000","_id":"NaKMzCNOpYWFh5F3","createdAt":{"$$date":1548229446316},"updatedAt":{"$$date":1548229446316}}
+{"from":"dance","to":"localhost:8000","_id":"dTgrUaEFAX6I0Bmi","createdAt":{"$$date":1548229652894},"updatedAt":{"$$date":1550135213749},"deleted":true}

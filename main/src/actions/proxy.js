@@ -11,8 +11,15 @@ const proxySchema = new Schema({
 
 const actions = {
   getProxies: async (req, res) => {
-    const proxies = await db.proxies.find({});
-    return res.send({proxies});
+    try {
+      console.log(db.proxies)
+      const proxies = await db.proxies.find({deleted: {$exists: false}});
+      return res.send({proxies});  
+    } catch(err) {
+      console.log("here" + err);
+      res.error(err)
+    }
+    
   },
   createProxy: async (req, res) => {
     const {payload} = req;
@@ -33,7 +40,8 @@ const actions = {
     const {payload} = req;
     const proxy = await db.proxies.findOne({'_id': payload.id});
     try {
-      const deleted = await db.proxies.remove({'_id': proxy._id});
+      // await db.proxies.remove({'_id': proxy._id});
+      await db.proxies.update({'_id': proxy._id}, {$set: {deleted: true}});
       res.send({proxy, msg: 'Proxy deleted successfully.'});
     } catch (err) {
       res.error(err);

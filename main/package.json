@@ -1,7 +1,7 @@
 {
   "name": "main",
   "version": "1.0.0",
-  "description": "",
+  "description": "The fastest way to get local https",
   "main": "./src/index.js",
   "private": true,
   "dependencies": {
@@ -10,9 +10,7 @@
     "fs-extra": "^7.0.0",
     "nedb": "^1.8.0",
     "nedb-promises": "^3.0.1",
-    "node-gyp": "^3.8.0",
     "node-ipc": "^9.1.1",
-    "pkg": "^4.3.4",
     "redbird": "^0.8.0",
     "sudo-prompt": "^8.2.3",
     "validate": "^4.5.1"
@@ -22,13 +20,17 @@
     "start": "NODE_ENV=dev nodemon --watch ./src/*.js --watch ./src/**/*.js --exec 'yarn electron'",
     "pack": "NODE_ENV=prod electron-builder --dir",
     "dist": "NODE_ENV=prod electron-builder",
-    "buildRenderer": "cd ../renderer; yarn build; cd ../main; cp -r ../renderer/build ./build/html",
-    "buildProxyServer": "pkg ./src/proxyServer.js --targets=node8-macos-x64"
+    "test": "./node_modules/mocha/bin/mocha test/**/*.js",
+    "build:renderer": "cd ../renderer; yarn build; cd ../main; cp -r ../renderer/build ./build/html",
+    "build:deasyncNode": "cd node_modules/deasync; ./../.bin/node-gyp rebuild; cd ../../",
+    "build:proxyServer": "pkg ./src/proxyServer.js --targets=node8-macos-x64 --out-path ./build/executables"
   },
   "devDependencies": {
     "electron": "2.0.9",
     "electron-builder": "^20.28.4",
-    "nodemon": "^1.18.4"
+    "node-gyp": "^3.8.0",
+    "nodemon": "^1.18.4",
+    "pkg": "^4.3.4"
   },
   "build": {
     "appId": "com.httpslocalhost",
@@ -36,9 +38,13 @@
       "category": "public.app-category.developer-tools"
     },
     "productName": "HTTPSLocalhost",
-    "extraResources": [],
-    "files": [
+    "extraResources": [
+      "tmp/**/*",
+      "data/*.db",
       "build/**/*"
+    ],
+    "files": [
+      "src/**/*"
     ]
   },
   "author": "Shivek Khurana",
