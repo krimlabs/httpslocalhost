@@ -1,0 +1,46 @@
+html {
+	/* Adjust font size */
+    font-size: 100%;
+    -webkit-text-size-adjust: 100%;
+    /* Font varient */
+    font-variant-ligatures: none;
+    -webkit-font-variant-ligatures: none;
+    /* Smoothing */
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-smoothing: antialiased;
+    -webkit-font-smoothing: antialiased;
+    text-shadow: rgba(0, 0, 0, .01) 0 0 1px;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: Helvetica Neue,Helvetica,Arial,sans-serif;
+  background-color: #FAFAFA;
+}
+
+/* Remove blue outline on buttons */
+button:focus {outline:none;}
+
+/* Dim placeholder color */
+input::placeholder { color: #b2b2b2; }
+
+a:hover {
+	opacity: 0.8;
+}
+
+/* Shadow styles */
+.box-shadow-1 {
+	/* Drops a strong shadow on bottom */
+	-webkit-box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.24);
+	-moz-box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.24);
+	box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.24);
+}
+
+.box-shadow-2 {
+	/*Light and bottom less*/
+	-webkit-box-shadow: 0px -4px 12px 0px rgba(0,0,0,0.1);
+	-moz-box-shadow: 0px -4px 12px 0px rgba(0,0,0,0.1);
+	box-shadow: 0px -4px 12px 0px rgba(0,0,0,0.1);
+}

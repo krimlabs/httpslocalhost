@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="80px" height="80px" viewBox="0 0 80 80" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 52.2 (67145) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 5</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="25.4274251%" y1="7.864782%" x2="54.6221802%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#4FFFC4" offset="0%"></stop>
+            <stop stop-color="#3CD19F" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="50%" y1="100%" x2="50%" y2="0%" id="linearGradient-2">
+            <stop stop-color="#808080" stop-opacity="0.25" offset="0%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.12" offset="54%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.1" offset="100%"></stop>
+        </linearGradient>
+        <linearGradient x1="0%" y1="50.0037512%" x2="100%" y2="50.0037512%" id="linearGradient-3">
+            <stop stop-color="#808080" stop-opacity="0.25" offset="0%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.12" offset="54%"></stop>
+            <stop stop-color="#808080" stop-opacity="0.1" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="landing" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="002" transform="translate(-1051.000000, -870.000000)">
+            <g id="Group-5" transform="translate(1051.000000, 870.000000)">
+                <circle id="Oval" fill="url(#linearGradient-1)" cx="40" cy="40" r="40"></circle>
+                <g id="logo-old" transform="translate(17.000000, 10.000000)">
+                    <g id="shield">
+                        <g id="Group" opacity="0.5" fill="url(#linearGradient-2)" fill-rule="nonzero">
+                            <path d="M23.4622039,0.00425581394 L0.0337100629,14.5659488 C0.0337100629,14.5659488 0.0337100629,44.6009303 23.4622039,60.9807069 C46.8906977,44.6009303 46.8906977,14.5659488 46.8906977,14.5659488 L23.4622039,0.00425581394 Z" id="Shape"></path>
+                        </g>
+                        <path d="M23.0727273,0.867298578 L0.284848485,15.0227761 C0.284848485,15.0227761 0.284848485,44.2129055 23.0727273,60.1327014 C45.8606061,44.2103476 45.8606061,15.0227761 45.8606061,15.0227761 L23.0727273,0.867298578 Z" id="Shape" fill="#FFFFFF" fill-rule="nonzero"></path>
+                        <path d="M23.4652701,0.867298578 L23.0727273,1.10862389 L23.0727273,59.8564139 C23.2030072,59.9485098 23.3332872,60.0414581 23.4652701,60.1327014 C46.430303,44.2103476 46.430303,15.0227761 46.430303,15.0227761 L23.4652701,0.867298578 Z" id="Shape" fill="#C3CED5" fill-rule="nonzero" opacity="0.04"></path>
+                        <g id="Group" opacity="0.7" transform="translate(15.666667, 25.729858)" fill="url(#linearGradient-3)" fill-rule="nonzero">
+                            <polygon id="Shape" points="1.83199512 3.84598047 6.04450675 7.82252118 11.26706 0.0640001188 13.3733158 1.8722168 6.04450675 11.4381012 0.0762295575 4.56875513"></polygon>
+                        </g>
+                        <polygon id="Shape" fill="#3AD29F" fill-rule="nonzero" points="18.5155659 29.893237 21.9334162 33.163722 26.7759233 25.7298578 28.4848485 27.2171498 21.9334162 36.1374408 17.0909091 30.4876346"></polygon>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
