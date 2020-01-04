@@ -16,7 +16,7 @@ log('---> start')
 const createWindow = () => {
   win = new BrowserWindow({
     titleBarStyle: 'hidden',
-    width: process.env.NODE_ENV === 'dev' ? 880 : 440, height: 600,
+    width: process.env.NODE_ENV === 'dev' ? 880 : 460, height: 600,
     webPreferences: {
       nodeIntegration: false,
       preload: __dirname + '/utils/preload.js'
