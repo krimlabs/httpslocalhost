@@ -27,7 +27,7 @@
     "build:proxyServer": "yarn build:deasyncNode; yarn copy:deasyncNodeToBuild; pkg ./src/proxyServer.js --targets=node8-macos-x64 --out-path ./build/executables;"
   },
   "devDependencies": {
-    "electron": "2.0.9",
+    "electron": "7.2.4",
     "electron-builder": "^20.28.4",
     "node-gyp": "^3.8.0",
     "nodemon": "^1.18.4",
